@@ -15,6 +15,7 @@ class Wave /*extends View*/ {
     float offsetX;        //水波的水平偏移量
     float offsetY;        //水波的竖直偏移量
     float velocity;       //水波移动速度（像素/秒）
+    int color;
     private float scaleX;       //水平拉伸比例
     private float scaleY;       //竖直拉伸比例
     private int curWave;
@@ -32,7 +33,7 @@ class Wave /*extends View*/ {
      * @param wave      波幅（波宽度）
      */
 //    @SuppressWarnings("PointlessArithmeticExpression")
-    Wave(/*Context context, */int offsetX, int offsetY, int velocity, float scaleX, float scaleY, int wave) {
+    Wave(/*Context context, */int offsetX, int offsetY, int velocity, float scaleX, float scaleY, int wave, int color) {
 //        super(context);
         this.wave = wave;           //波幅（波宽）
         this.scaleX = scaleX;       //水平拉伸量
@@ -41,6 +42,7 @@ class Wave /*extends View*/ {
         this.offsetY = offsetY;     //竖直偏移量
         this.velocity = velocity;   //移动速度（像素/秒）
         this.path = new Path();
+        this.color = color;
     }
 
 //    /*
@@ -111,15 +113,15 @@ class Wave /*extends View*/ {
         path.reset();
 
         path.moveTo(0, 0);
-        path.lineTo(0, height - wave);
+        path.lineTo(0, height - wave + offsetY);
 
         if (wave > 0) {
             for (int x = DP; x < width; x += DP) {
-                path.lineTo(x, height - wave - wave * (float) Math.sin(4.0 * Math.PI * x / width));
+                path.lineTo(x, height - wave - wave * (float) Math.sin(4.0 * Math.PI * x / width) + offsetY);
             }
         }
 
-        path.lineTo(width, height - wave);
+        path.lineTo(width, height - wave + offsetY);
         path.lineTo(width, 0);
         path.close();
         return path;
