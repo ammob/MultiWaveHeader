@@ -160,7 +160,9 @@ public class MultiWaveHeader extends ViewGroup {
                     mMatrix.setTranslate(wave.offsetX, (1 - mCurProgress) * height);
                     canvas.translate(-wave.offsetX, -(1 - mCurProgress) * height);
                 }
-                mPaint.getShader().setLocalMatrix(mMatrix);
+                if (mIsLinearGradient) {
+                    mPaint.getShader().setLocalMatrix(mMatrix);
+                }
                 mPaint.setColor(wave.color);
                 canvas.drawPath(wave.path, mPaint);
                 canvas.restore();
@@ -188,8 +190,6 @@ public class MultiWaveHeader extends ViewGroup {
             double y = r * Math.sin(2 * Math.PI * mGradientAngle / 360);
             double x = r * Math.cos(2 * Math.PI * mGradientAngle / 360);
             mPaint.setShader(new LinearGradient((int)(w/2-x), (int)(h/2-y), (int)(w/2+x), (int)(h/2+y), startColor, closeColor, Shader.TileMode.CLAMP));
-        } else {
-            mPaint.setShader(new Shader());
         }
     }
 
